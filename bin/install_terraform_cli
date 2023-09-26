@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Switch to workspace folder
+
+cd /workspace
+
 # Install Terraform
 
 sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
@@ -25,3 +29,9 @@ sudo apt-get install -y terraform
 touch ~/.bashrc
 
 terraform -install-autocomplete
+
+# Return to project root folder
+
+cd $PROJECT_ROOT
+
+#eof
