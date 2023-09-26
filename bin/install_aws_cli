@@ -4,9 +4,20 @@
 
 cd /workspace
 
+# Remove awscliv2.zip file if it exists
+
+AWSCLIFILE='awscliv2.zip'
+if [[ -f "$AWSCLIFILE" ]]; then
+    rm "$AWSCLIFILE"
+fi
+
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
+unzip -o awscliv2.zip
 sudo ./aws/install
+
+# Test access via AWS CLI by getting identity
+
+aws sts get-caller-identity
 
 # Return to project root folder
 
