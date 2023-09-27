@@ -245,4 +245,37 @@ If you lose this file, you lose knowing the state of your infrastructure.
 
 The `.terraform` directory contains binaries of Terraform providers.
 
+### Issues with Terraform Cloud Login and Gitpod Workspace
+
+When running `terraform login` it will launch a text-based web browser in an attempt to open a Terraform web page. The Terraform web page does not render in the text-based web browser.
+
+There are two potential workarounds for this issue:
+
+1. Close the text-based web browser and manually navigate to the required web page: 
+    1. Press **q** in the text-based web browser.
+    2. **Ctrl-Click** the [URL shown](https://app.terraform.io/app/settings/tokens?source=terraform-login) to open the Terraform web page in a new browser.
+    3. Generate a login token and copy it.
+    4. Paste it into the Terraform prompt in Bash and press **enter**. 
+       > ***NB:*** The token will not be shown when you paste it.
+2. Manually create the Terraform Cloud credentials file:
+    1. Generate the token in Terraform Cloud from the [Tokens page](https://app.terraform.io/app/settings/tokens?source=terraform-login).
+    2. Create an empty credentials file:
+       ```sh
+       touch /home/gitpod/.terraform.d/credentials.tfrc.json
+       ```
+    3. Open the file in VSCode:
+       ```sh
+       open /home/gitpod/.terraform.d/credentials.tfrc.json
+       ```
+    4. Enter the following code into the file, making sure to substitute your generated token:
+        ```json
+        {
+          "credentials": {
+            "app.terraform.io": {
+              "token": "YOUR-TERRAFORM-CLOUD-TOKEN"
+            }
+          }
+        }
+        ```
+
 :end:
