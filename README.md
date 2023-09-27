@@ -10,7 +10,7 @@ The general format:
 
 **MAJOR.MINOR.PATCH**, eg. `1.0.1`
 
-* **MAJOR** version when you make incompatible API changes
+* **MAJOR** version when you make incompatible application programming interface (API) changes
 * **MINOR** version when you add functionality in a backward compatible manner
 * **PATCH** version when you make backward compatible bug fixes
 Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
@@ -97,7 +97,7 @@ chmod 744 ./bin/install_terraform_cli
 
 https://en.wikipedia.org/wiki/Chmod
 
-### Gitpod Lifecycle (Before, Init, Command)
+## Gitpod Lifecycle (Before, Init, Command)
 
 We need to be careful when using the Init because it will not rerun if we restart an existing workspace.
 
@@ -155,7 +155,7 @@ All future workspaces launched will set the env vars for all bash terminals open
 
 You can also set env vars in the `.gitpod.yml` but this can only contain non-sensitive env vars.
 
-### AWS CLI Installation
+## AWS CLI Installation
 
 Amazon Web Services (AWS) command line interface (CLI) is installed for the project via the bash script [`./bin/install_aws_cli`](./bin/install_aws_cli).
 
@@ -180,5 +180,61 @@ If it is successful you should see a JSON payload returned that looks like this:
 ```
 
 We'll need to generate AWS CLI credentials from _IAM User_ in order to use the AWS CLI.
+
+## Terraform Basics
+
+### Terraform Registry
+
+Terraform sources their providers and modules from the Terraform registry which is located at [`registry.terraform.io`](https://registry.terraform.io).
+
+* **Providers** are interfaces to APIs that will allow creation of resources in Terraform.
+  * Example Terraform provider: [Random Terraform Provider](https://registry.terraform.io/providers/hashicorp/random)
+* **Modules** are a way to make large amounts of Terraform code modular, portable, and sharable.
+
+### Terraform Console
+
+We can see a list of all the Terraform commands by simply typing `terraform`.
+
+#### Terraform Init
+
+At the start of a new Terraform project we will run `terraform init` to download the binaries for the Terraform providers that we'll use in the project.
+
+#### Terraform Plan
+
+`terraform plan`
+
+This will generate a _changeset_, which is about the state of our infrastructure and what will be changed.
+
+We can output this changeset (i.e., `plan`) to be passed to an apply, but often you can just ignore outputting.
+
+#### Terraform Apply
+
+`terraform apply`
+
+This will run a plan and pass the changeset to be executed by Terraform. Apply should prompt _yes_ or _no_.
+
+If we want to automatically approve an apply we can provide the auto approve flag. Ex. `terraform apply --auto-approve`.
+
+### Terraform Lock Files
+
+`.terraform.lock.hcl` contains the locked versioning for the provides and modules that should be used with this project.
+
+The Terraform lock file **should be committed** to your _Version Control System (VCS)_, ex. Github.
+
+### Terraform State Files
+
+`.terraform.tfstate` contains information about the current state of your infrastructure.
+
+This file **should not be committed** to you VCS.
+
+This file can contain sensitive date.
+
+If you lose this file, you lose knowing the state of your infrastructure.
+
+`.terraform.tfstate.backup` is the previous state file and contains the previous current state.
+
+### Terraform Directory
+
+The `.terraform` directory contains binaries of Terraform providers.
 
 :end:
