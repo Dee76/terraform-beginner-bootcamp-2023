@@ -92,9 +92,49 @@ You can use `terraform import` however it won't work for all cloud resources. Yo
 
 [AWS S3 Bucket Import](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#import)
 
-
 ### Fix Manual Configuration
 
 If someone goes and deletes or modifies cloud resources manually via "ClickOps", we can run `terraform plan` again and it will attempt to put our infrastructure back into the expected state.
+
+### Fix Using Terraform Refresh
+
+```sh
+terraform apply -refresh-only -auto-approve
+```
+
+## Terraform Modules
+
+### Terraform Module Structure
+
+It's recommended to place modules in a `modules` sub directory when locally developing modules, however you can name it however you like.
+
+### Passing Input Variables
+
+We can pass input variables to our module.
+
+The module has to declare the Terraform variables in it's own `variables.tf`.
+
+```terraform
+module "terrahouse_aws" {
+  source = "./modules/terrahouse_aws"
+  user_uuid = var.user_uuid
+  bucket_name = var.bucket_name
+}
+```
+
+### Module Sources
+
+Using the source we can import the module from various places. Ex.:
+- locally
+- Github
+- Terraform Registry
+
+```terraform
+module "terrahouse_aws" {
+  source = "./modules/terrahouse_aws"
+}
+```
+
+[Modules Sources](https://developer.hashicorp.com/terraform/language/modules/sources)
 
 :end:
