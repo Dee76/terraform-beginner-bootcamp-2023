@@ -4,6 +4,10 @@
 
 - [Root Module Structure](#root-module-structure)
 - [Terraform and Input Variables](#terraform-and-input-variables)
+- [Dealing with Configuration Drift](#dealing-with-configuration-drift)
+- [Terraform Modules](#terraform-modules)
+- [Considerations When Using ChatGPT to Write Terraform](#considerations-when-using-chatgpt-to-write-terraform)
+- [Working with Files in Terraform](#working-with-files-in-terraform)
 
 ## Root Module Structure
 
@@ -46,7 +50,7 @@ Alternatively the `-var-file` flag accepts a file ending in `.tfvars` or `.tfvar
 
 The `.tfvars` file follows the standard Terraform `.tfvars` format:
 
-```ruby
+```terraform
 user_uuid="my-user-id"
 ```
 
@@ -136,5 +140,56 @@ module "terrahouse_aws" {
 ```
 
 [Modules Sources](https://developer.hashicorp.com/terraform/language/modules/sources)
+
+## Considerations when using ChatGPT to write Terraform
+
+Large Language Models (LLMs) used by ChatGPT may not be trained on the latest documentation or information about Terraform.
+
+It may produce older example that could be deprecated. Often affecting providers.
+
+## Working with Files in Terraform
+
+### `fileexists` Function
+
+`fileexists` is a built-in Terraform function to check if a file or directory exists.
+
+[fileexists function](https://developer.hashicorp.com/terraform/language/functions/fileexists)
+
+Example:
+
+```terraform
+condition = fileexists(var.index_html_filepath)
+```
+
+### `filemd5` Function
+
+The `filemd5` function returns the _md5_ hash of the specified file.
+
+[filemd5 Function](https://developer.hashicorp.com/terraform/language/functions/filemd5)
+
+Example:
+
+```terraform
+etag = filemd5(var.index_html_filepath)
+```
+
+### Path Variables
+
+In Terraform there is a special variable called `path` that allows us to reference local paths:
+
+- `path.module` - get the path for the current module
+- `path.root` - get the path for the root module
+
+[Special Path Variable](https://developer.hashicorp.com/terraform/language/expressions/references#filesystem-and-workspace-info)
+
+Example:
+
+```terraform
+resource "aws_s3_object" "index_html" {
+  bucket = aws_s3_bucket.website_bucket.bucket
+  key    = "index.html"
+  source = "${path.root}/public/index.html"
+}
+```
 
 :end:

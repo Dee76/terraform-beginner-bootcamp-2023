@@ -15,3 +15,21 @@ variable "bucket_name" {
     error_message = "Invalid bucket_name format. It should be between 3 and 63 characters in length, containing only lowercase alphanumeric characters, hyphens, or periods, and must not start or end with a hyphen or period."
   }
 }
+
+variable "index_html_filepath" {
+  type        = string
+  description = "File path to the index.html file"
+  validation {
+    condition     = fileexists(var.index_html_filepath)
+    error_message = "The specified file path does not exist."
+  }
+}
+
+variable "error_html_filepath" {
+  type        = string
+  description = "File path to the error.html file"
+  validation {
+    condition     = fileexists(var.error_html_filepath)
+    error_message = "The specified file path does not exist."
+  }
+}
