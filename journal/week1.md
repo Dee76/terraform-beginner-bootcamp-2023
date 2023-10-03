@@ -2,12 +2,38 @@
 
 ## Table of Contents
 
+- [Fixing Tags](#fixing-tags)
 - [Root Module Structure](#root-module-structure)
 - [Terraform and Input Variables](#terraform-and-input-variables)
 - [Dealing with Configuration Drift](#dealing-with-configuration-drift)
 - [Terraform Modules](#terraform-modules)
 - [Considerations When Using ChatGPT to Write Terraform](#considerations-when-using-chatgpt-to-write-terraform)
 - [Working with Files in Terraform](#working-with-files-in-terraform)
+
+## Fixing Tags
+
+[How to Delete Local and Remote Tags on Git ](https://devconnected.com/how-to-delete-local-and-remote-tags-on-git/)
+
+Locally delete a tag:
+
+```sh
+git tag -d <tag_name>
+```
+
+Remotely delete a tag:
+
+```sh
+git push --delete origin tagname
+``````
+
+Checkout the commit that you want to retag. Grab the SHA from your Github history.
+
+```sh
+git checkout <SHA>
+git tag <M.M.P>
+git push --tags
+git checkout main
+```
 
 ## Root Module Structure
 
