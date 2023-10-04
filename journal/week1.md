@@ -9,6 +9,9 @@
 - [Terraform Modules](#terraform-modules)
 - [Considerations When Using ChatGPT to Write Terraform](#considerations-when-using-chatgpt-to-write-terraform)
 - [Working with Files in Terraform](#working-with-files-in-terraform)
+- [Terraform Locals](#terraform-locals)
+- [Terraform Data Sources](#terraform-data-sources)
+- [Working with JSON](#working-with-json)
 
 ## Fixing Tags
 
@@ -217,5 +220,52 @@ resource "aws_s3_object" "index_html" {
   source = "${path.root}/public/index.html"
 }
 ```
+
+## Terraform Locals
+
+Locals allow us to define variables locally.
+
+They can be very useful when we need to transform data into other format and have it referenceable as a variable.
+
+Example:
+
+```terraform
+locals {
+  s3_origin_id = "myS3Origin"
+}
+```
+
+[Local Values](https://developer.hashicorp.com/terraform/language/values/locals)
+
+## Terraform Data Sources
+
+This allows us to source data from cloud resources.
+
+This is useful when we want to reference cloud resources without importing them.
+
+Example:
+
+```terraform
+data "aws_caller_identity" "current" {}
+
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}
+```
+
+[Data Sources](https://developer.hashicorp.com/terraform/language/data-sources)
+
+## Working with JSON
+
+We use `jsonencode` to create the json policy inline in the HCL.
+
+Example:
+
+```terraform
+> jsonencode({"hello"="world"})
+{"hello":"world"}
+```
+
+[jsonencode](https://developer.hashicorp.com/terraform/language/functions/jsonencode)
 
 :end:
