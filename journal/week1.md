@@ -12,6 +12,8 @@
 - [Terraform Locals](#terraform-locals)
 - [Terraform Data Sources](#terraform-data-sources)
 - [Working with JSON](#working-with-json)
+- [Change the Lifecycle of Resources](#change-the-lifecycle-of-resources)
+- [Terraform Data](#terraform-data)
 
 ## Fixing Tags
 
@@ -267,5 +269,47 @@ Example:
 ```
 
 [jsonencode](https://developer.hashicorp.com/terraform/language/functions/jsonencode)
+
+## Change the Lifecycle of Resources
+
+`lifecycle` allows us to instruct Terraform how to treat the lifecycle of resources.
+
+We used this with our S3 objects so that we can update when our `content_version` variable changes, ignoring changes to the files themselves.
+
+Example:
+
+```terraform
+resource "aws_s3_object" "index_html" {
+  # ...
+  etag = filemd5(var.index_html_filepath)
+  lifecycle {
+    ignore_changes = [etag]
+    replace_triggered_by = [terraform_data.content_version]
+  }
+}
+
+```
+
+[Lifecycle Meta-Argument](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle)
+
+## Terraform Data
+
+Plain data values such as _Local Values_ and _Input Variables_ don't have any side-effects to plan against and so they aren't valid in `replace_triggered_by`. You can use `terraform_data`'s behavior of planning an action each time `input` changes to indirectly use a plain value to trigger replacement.
+
+Example:
+
+```terraform
+resource "terraform_data" "content_version" {
+  input = var.content_version
+}
+
+resource "aws_s3_object" "index_html" {
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+  }
+}
+```
+
+[terraform_data](https://developer.hashicorp.com/terraform/language/resources/terraform-data)
 
 :end:
