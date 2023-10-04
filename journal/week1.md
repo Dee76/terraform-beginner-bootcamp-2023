@@ -368,4 +368,37 @@ resource "aws_instance" "web" {
 
 [`remote-exec` Provisioner](https://developer.hashicorp.com/terraform/language/resources/provisioners/remote-exec)
 
+## `for` and `for_each` Expressions
+
+`for` and `for_each` allow you to traverse collections of complex data types.
+
+### `for`
+
+`for` allows us to enumerate over complex data types and perform actions against them.
+
+Example:
+
+```terraform
+[for s in var.list : upper(s)]
+```
+
+[For Expressions](https://developer.hashicorp.com/terraform/language/expressions/for)
+
+### `for_each`
+
+Similar to `for`, `for_each` iterates over complex data types. It allows you to perform multiple commands by providing a reference to each item in the complex data type.
+
+In our case, we passed a `fileset` to `for_each`, so it allowed us to reference each file as a set of keys via `each.key`.
+
+Example:
+
+```terraform
+resource "aws_iam_user" "the-accounts" {
+  for_each = toset( ["Todd", "James", "Alice", "Dottie"] )
+  name     = each.key
+}
+```
+
+[`for_each` Meta-Argument](https://developer.hashicorp.com/terraform/language/meta-arguments/for_each)
+
 :end:
