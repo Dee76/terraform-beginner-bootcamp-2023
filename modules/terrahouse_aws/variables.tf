@@ -34,6 +34,17 @@ variable "error_html_filepath" {
   }
 }
 
+variable "assets_path" {
+  type        = string
+  description = "Path to assets directory"
+
+  validation {
+    # Simple regex check to ensure value is in a valid path format.
+    condition     = can(regex("^/?[\\w-]+(?:/[\\w-]+)*(?:\\.?([a-zA-Z]+|/))*$", var.assets_path))
+    error_message = "The specified directory path is not a valid path format."
+  }
+}
+
 variable "content_version" {
   type        = number
   description = "Content version (positive integer starting at 1)"
