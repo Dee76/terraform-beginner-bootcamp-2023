@@ -5,15 +5,38 @@
 - [Fixing Tags](#fixing-tags)
 - [Root Module Structure](#root-module-structure)
 - [Terraform and Input Variables](#terraform-and-input-variables)
+  * [Terraform cloud Variables](#terraform-cloud-variables)
+  * [Loading Terraform Input Variables](#loading-terraform-input-variables)
+    + [var flag](#var-flag)
+    + [var-file flag](#var-file-flag)
+  * [terraform.tfvars](#terraformtfvars)
+  * [*.auto.tfvars](#autotfvars)
+  * [Order of Terraform Variables](#order-of-terraform-variables)
 - [Dealing with Configuration Drift](#dealing-with-configuration-drift)
+  * [What Happens if We Lose Our State File?](#what-happens-if-we-lose-our-state-file)
+  * [Fix Missing Resources with Terraform Import](#fix-missing-resources-with-terraform-import)
+  * [Fix Manual Configuration](#fix-manual-configuration)
+  * [Fix Using Terraform Refresh](#fix-using-terraform-refresh)
 - [Terraform Modules](#terraform-modules)
-- [Considerations When Using ChatGPT to Write Terraform](#considerations-when-using-chatgpt-to-write-terraform)
+  * [Terraform Module Structure](#terraform-module-structure)
+  * [Passing Input Variables](#passing-input-variables)
+  * [Module Sources](#module-sources)
+- [Considerations when using ChatGPT to write Terraform](#considerations-when-using-chatgpt-to-write-terraform)
 - [Working with Files in Terraform](#working-with-files-in-terraform)
+  * [`fileexists` Function](#fileexists-function)
+  * [`filemd5` Function](#filemd5-function)
+  * [Path Variables](#path-variables)
 - [Terraform Locals](#terraform-locals)
 - [Terraform Data Sources](#terraform-data-sources)
 - [Working with JSON](#working-with-json)
 - [Change the Lifecycle of Resources](#change-the-lifecycle-of-resources)
 - [Terraform Data](#terraform-data)
+- [Provisioners](#provisioners)
+  * [Local-exec](#local-exec)
+  * [Remote-exec](#remote-exec)
+- [`for` and `for_each` Expressions](#for-and-for_each-expressions)
+  * [`for`](#for)
+  * [`for_each`](#for_each)
 
 ## Fixing Tags
 
@@ -236,6 +259,14 @@ locals {
   s3_origin_id = "myS3Origin"
 }
 ```
+
+> ***NB:*** For the Week 1 Validation I had to explicitly set `s3_origin_id` to match `MyS3Origin` (case-sensitive) in order to pass.
+> This seems to be a quirk of the validator, as
+>  [CloudFront Distribution Origin Arguments](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#origin-arguments)
+> shows that the _required_ `origin_id` just has to be a unique identifier.
+>
+> The [CloudFront Distribution S3 Origin](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#s3-origin)
+> example uses a `s3_origin_id` value of `myS3Origin` (note the lower case first letter).
 
 [Local Values](https://developer.hashicorp.com/terraform/language/values/locals)
 
