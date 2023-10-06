@@ -34,4 +34,4 @@ override.tf.json
 terraform.rc
 
 # Ignore compiled TerraTowns Terraform provider
-terraform-provider-terratowns/terraforms-provider-terratowns_v*
+terraform-provider-terratowns/terraform-provider-terratowns_v*
