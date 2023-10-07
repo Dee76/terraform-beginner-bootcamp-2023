@@ -3,7 +3,9 @@ resource "aws_s3_bucket" "website_bucket" {
   # Bucket Naming Rules:
   # https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html?icmpid=docs_amazons3_console
   # bucket = random_string.bucket_name.result
-  bucket = var.bucket_name
+
+  # We want to assign a random bucket name.
+  #bucket = var.bucket_name
 
   tags = {
     UserUuid = var.user_uuid
@@ -54,19 +56,146 @@ resource "aws_s3_object" "error_html" {
     ignore_changes = [etag]
   }
 }
-resource "aws_s3_object" "upload_assets" {
+resource "aws_s3_object" "upload_assets_png" {
   # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
   # https://developer.hashicorp.com/terraform/language/functions/fileset
-  for_each = fileset(var.assets_path, "*.{png,jpg,jpeg,gif,webp}")
+  for_each = fileset(var.assets_path, "img/*.{png}")
   bucket   = aws_s3_bucket.website_bucket.id
   key      = "assets/${each.key}"
   source   = "${var.assets_path}/${each.key}"
+  content_type = "image/png"
   etag     = filemd5("${var.assets_path}/${each.key}")
   lifecycle {
     replace_triggered_by = [terraform_data.content_version]
     ignore_changes = [etag]
   }
 }
+resource "aws_s3_object" "upload_assets_jpeg" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "img/*.{jpg,jpeg}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "image/jpeg"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+resource "aws_s3_object" "upload_assets_gif" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "img/*.{gif}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "image/gif"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+resource "aws_s3_object" "upload_assets_css" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "css/*.{css}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "text/css"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+resource "aws_s3_object" "upload_assets_js" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "js/*.{js}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "text/javascript"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+resource "aws_s3_object" "upload_assets_eot" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "fonts/*.{eot}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "application/vnd.ms-fontobject"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+resource "aws_s3_object" "upload_assets_svg" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "fonts/*.{svg}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "image/svg+xml"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+resource "aws_s3_object" "upload_assets_ttf" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "fonts/*.{ttf}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "font/ttf"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+resource "aws_s3_object" "upload_assets_woff" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.assets_path, "fonts/*.{woff}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "assets/${each.key}"
+  source   = "${var.assets_path}/${each.key}"
+  content_type = "font/woff"
+  etag     = filemd5("${var.assets_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
+
+# resource "aws_s3_object" "upload_assets" {
+#   # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+#   # https://developer.hashicorp.com/terraform/language/functions/fileset
+#   for_each = fileset(var.assets_path, "*.{png,jpg,jpeg,gif,webp,css,js,eot,svg,ttf,woff}")
+#   bucket   = aws_s3_bucket.website_bucket.id
+#   key      = "assets/${each.key}"
+#   source   = "${var.assets_path}/${each.key}"
+#   etag     = filemd5("${var.assets_path}/${each.key}")
+#   lifecycle {
+#     replace_triggered_by = [terraform_data.content_version]
+#     ignore_changes = [etag]
+#   }
+# }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
