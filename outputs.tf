@@ -1,14 +1,29 @@
-output "bucket_name" {
-  description = "Bucket name for our static website hosting."
-  value = module.terrahouse_aws.bucket_name
+output "lebowksi_bucket_name" {
+  description = "Bucket name for our static website hosting for the Lebowski TerraHome."
+  value = module.home_lebowski_hosting.bucket_name
 }
 
-output "s3_website_endpoint" {
-  description = "S3 Static Websit hosting endpoint."
-  value = module.terrahouse_aws.website_endpoint
+output "lebowski_s3_website_endpoint" {
+  description = "S3 Static Websit hosting endpoint for the Lebowski TerraHome."
+  value = module.home_lebowski_hosting.website_endpoint
 }
 
-output "cloudfront_url" {
-  description = "CloudFront Distribution domain name."
-  value = module.terrahouse_aws.cloudfront_url
+output "lebowski_domain_name" {
+  description = "CloudFront Distribution domain name for the Lebowski TerraHome."
+  value = module.home_lebowski_hosting.domain_name
+}
+
+output "gfcake_bucket_name" {
+  description = "Bucket name for our static website hosting for the Lebowski TerraHome."
+  value = module.home_gfcake_hosting.bucket_name
+}
+
+output "gfcake_s3_website_endpoint" {
+  description = "S3 Static Websit hosting endpoint for the Lebowski TerraHome."
+  value = module.home_gfcake_hosting.website_endpoint
+}
+
+output "gfcake_domain_name" {
+  description = "CloudFront Distribution domain name for the Lebowski TerraHome."
+  value = module.home_gfcake_hosting.domain_name
 }

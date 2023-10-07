@@ -16,34 +16,45 @@ variable "user_uuid" {
 #   }
 # }
 
-variable "index_html_filepath" {
-  type        = string
-  description = "File path to the index.html file"
-  validation {
-    condition     = fileexists(var.index_html_filepath)
-    error_message = "The specified file path does not exist."
-  }
-}
+# variable "index_html_filepath" {
+#   type        = string
+#   description = "File path to the index.html file"
+#   validation {
+#     condition     = fileexists(var.index_html_filepath)
+#     error_message = "The specified file path does not exist."
+#   }
+# }
 
-variable "error_html_filepath" {
-  type        = string
-  description = "File path to the error.html file"
-  validation {
-    condition     = fileexists(var.error_html_filepath)
-    error_message = "The specified file path does not exist."
-  }
-}
+# variable "error_html_filepath" {
+#   type        = string
+#   description = "File path to the error.html file"
+#   validation {
+#     condition     = fileexists(var.error_html_filepath)
+#     error_message = "The specified file path does not exist."
+#   }
+# }
 
-variable "assets_path" {
+variable "public_path" {
   type        = string
-  description = "Path to assets directory"
+  description = "Path to public directory for Lebowski TerraHome"
 
   validation {
     # Simple regex check to ensure value is in a valid path format.
-    condition     = can(regex("^/?[\\w-]+(?:/[\\w-]+)*(?:\\.?([a-zA-Z]+|/))*$", var.assets_path))
+    condition     = can(regex("^/?[\\w-]+(?:/[\\w-]+)*(?:\\.?([a-zA-Z]+|/))*$", var.public_path))
     error_message = "The specified directory path is not a valid path format."
   }
 }
+
+# variable "assets_path" {
+#   type        = string
+#   description = "Path to assets directory"
+
+#   validation {
+#     # Simple regex check to ensure value is in a valid path format.
+#     condition     = can(regex("^/?[\\w-]+(?:/[\\w-]+)*(?:\\.?([a-zA-Z]+|/))*$", var.assets_path))
+#     error_message = "The specified directory path is not a valid path format."
+#   }
+# }
 
 variable "content_version" {
   type        = number

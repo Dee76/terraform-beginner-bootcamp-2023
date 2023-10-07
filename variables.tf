@@ -14,18 +14,18 @@ variable "teacherseat_user_uuid" {
 #   type = string
 # }
 
-variable "index_html_filepath" {
-  type = string
+variable "lebowski" {
+  description = "A nested set of configuration variables for the Lebowski TerraHome."
+  type = object({
+    public_path = string
+    content_version = number
+  })
 }
 
-variable "error_html_filepath" {
-  type = string
-}
-
-variable "assets_path" {
-  type = string
-}
-
-variable "content_version" {
-  type = number
+variable "gfcake" {
+  description = "A nested set of configuration variables for the GFCake TerraHome."
+  type = object({
+    public_path = string
+    content_version = number
+  })
 }
