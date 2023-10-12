@@ -15,3 +15,6 @@ mkdir -p $PLUGIN_DIR/x86_64/
 mkdir -p $PLUGIN_DIR/linux_amd64/
 cp $PROJECT_ROOT/terraform-provider-terratowns/$PLUGIN_NAME $PLUGIN_DIR/x86_64
 cp $PROJECT_ROOT/terraform-provider-terratowns/$PLUGIN_NAME $PLUGIN_DIR/linux_amd64
+
+# Go back to project root directory.
+cd $PROJECT_ROOT
