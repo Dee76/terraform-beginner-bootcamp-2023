@@ -94,7 +94,8 @@
             dots: true,
             autoplay: true,
             autoplayTimeout: 5000,
-            smartSpeed: 1000
+            smartSpeed: 1000,
+            animateOut: 'fadeOut'
         });
     }
 

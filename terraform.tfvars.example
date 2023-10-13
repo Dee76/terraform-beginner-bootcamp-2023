@@ -5,5 +5,5 @@ lebowski = {
 }
 gfcake = {
     public_path="/workspace/terraform-beginner-bootcamp-2023/public/gfcake"
-    content_version=1
+    content_version=3
 }

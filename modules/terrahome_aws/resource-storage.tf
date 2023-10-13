@@ -98,6 +98,20 @@ resource "aws_s3_object" "upload_assets_gif" {
     ignore_changes = [etag]
   }
 }
+resource "aws_s3_object" "upload_assets_svg_img" {
+  # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
+  # https://developer.hashicorp.com/terraform/language/functions/fileset
+  for_each = fileset(var.public_path, "assets/img/*.{svg}")
+  bucket   = aws_s3_bucket.website_bucket.id
+  key      = "${each.key}"
+  source   = "${var.public_path}/${each.key}"
+  content_type = "image/svg+xml"
+  etag     = filemd5("${var.public_path}/${each.key}")
+  lifecycle {
+    replace_triggered_by = [terraform_data.content_version]
+    ignore_changes = [etag]
+  }
+}
 resource "aws_s3_object" "upload_assets_css" {
   # https://developer.hashicorp.com/terraform/language/meta-arguments/for_each
   # https://developer.hashicorp.com/terraform/language/functions/fileset
